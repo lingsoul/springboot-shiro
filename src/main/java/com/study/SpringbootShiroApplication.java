@@ -3,6 +3,8 @@ package com.study;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SpringbootShiroApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringbootShiroApplication.class, args);
+		ApplicationContext applicationContext = SpringApplication.run(SpringbootShiroApplication.class, args);
+
 	}
 }

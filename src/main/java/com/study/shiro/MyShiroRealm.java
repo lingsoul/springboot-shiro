@@ -4,6 +4,8 @@ import com.study.model.Resources;
 import com.study.model.User;
 import com.study.service.ResourcesService;
 import com.study.service.UserService;
+import com.study.util.PasswordHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -18,9 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by yangqj on 2017/4/21.
- */
+@Slf4j
 public class MyShiroRealm extends AuthorizingRealm {
 
     @Resource
@@ -52,14 +52,27 @@ public class MyShiroRealm extends AuthorizingRealm {
         User user = userService.selectByUsername(username);
         if(user==null) throw new UnknownAccountException();
         if (0==user.getEnable()) {
-            throw new LockedAccountException(); // 帐号锁定
+            throw new LockedAccountException();
         }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user, //用户
-                user.getPassword(), //密码
+                user,
+                user.getPassword(),
                 ByteSource.Util.bytes(username),
-                getName()  //realm name
+                getName()
         );
+
+        User tempUser = new User();
+
+        String password = new String((char[]) token.getCredentials());
+        tempUser.setPassword(password);
+        tempUser.setUsername(username);
+
+        PasswordHelper passwordHelper = new PasswordHelper();
+        passwordHelper.encryptPassword(tempUser);
+        if (!tempUser.getPassword().equals(user.getPassword())) {
+            log.info("password error");
+            throw new IncorrectCredentialsException();
+        }
         // 当验证都通过后，把用户信息放在session里
         Session session = SecurityUtils.getSubject().getSession();
         session.setAttribute("userSession", user);

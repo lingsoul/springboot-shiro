@@ -1,0 +1,63 @@
+debug:
+  true
+logging:
+  level:
+    tk:
+      mybatis: TRACE
+    com:
+      study: trace
+    org:
+      springframework:
+        web: DEBUG
+# 数据源基础配置
+spring:
+  redis:
+      host: test-57
+      port: 6379
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-active: 8
+        max-wait: -1
+      timeout: 0
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://test-35:3306/shiro
+    username: root
+    password: root
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat,wall,log4j
+    logSlowSql: true
+
+#  thymeleaf:
+#    cache: false
+#    mode: LEGACYHTML5
+
+#mybatis:
+#  type-aliases-package: com.study.model
+##  mapper-locations: classpath:mapper/*.xml
+#  mappers: com.study.util.MyMapper
+#  not-empty: false
+#  identity: MYSQL
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count\=countSql
+
+abc:
+  abc_url: cc.url
+server:
+  port: 8081
+
+
